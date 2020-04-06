@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Layout } from "antd";
+import "./App.css";
+import "antd/dist/antd.css";
+import Routes from "./routes";
+import Navbar from "./components/Navbar";
+import Breadcrumb from "./components/Breadcrumb";
+import moment from "moment";
+const { Header, Content, Footer } = Layout;
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Layout className="layout">
+        <Header>
+          <Navbar />
+        </Header>
+        <Content style={{ padding: "0 50px" }}>
+          <Breadcrumb />
+          <Routes />
+        </Content>
+        <Footer style={{ textAlign: "center" }}>
+          ©{moment().get("year")} | Created by Renan Zelaya
+        </Footer>
+      </Layout>
+    </>
   );
-}
+};
 
 export default App;
