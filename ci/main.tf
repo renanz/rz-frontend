@@ -116,3 +116,7 @@ output "s3_url" {
 output "cloudfront_url" {
   value = aws_cloudfront_distribution.cloudfront_distribution.domain_name
 }
+
+output "cloudfront_id" {
+  value = aws_cloudfront_distribution.cloudfront_distribution.id
+}
