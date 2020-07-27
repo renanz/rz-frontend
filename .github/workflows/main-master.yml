@@ -130,4 +130,4 @@ jobs:
       - name: Create Cloudfront invalidation
         working-directory: ci
         run: |
-          aws cloudfront create-invalidation --distribution-id ${{ steps.tfout.outputs.stdout }} --paths "/*"
+          aws cloudfront create-invalidation --paths "*" --distribution-id ${{ steps.tfout.outputs.stdout }}
