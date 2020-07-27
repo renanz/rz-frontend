@@ -16,6 +16,9 @@ env:
   SSL_CERTIFICATE_ID: ${{ secrets.SSL_CERTIFICATE_ID }}
   TERRAFORM_S3_BUCKET: ${{ secrets.TERRAFORM_S3_BUCKET }}
   REACT_APP_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+  REACT_APP_AUTH0_DOMAIN: ${{ secrets.REACT_APP_AUTH0_DOMAIN }}
+  REACT_APP_AUTH0_AUDIENCE: ${{ secrets.REACT_APP_AUTH0_AUDIENCE }}
+  REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.REACT_APP_AUTH0_CLIENT_ID }}
 
 jobs:
   build:
@@ -34,6 +37,9 @@ jobs:
         run: npm run build
         env:
           REACT_APP_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          REACT_APP_AUTH0_DOMAIN: ${{ secrets.REACT_APP_AUTH0_DOMAIN }}
+          REACT_APP_AUTH0_AUDIENCE: ${{ secrets.REACT_APP_AUTH0_AUDIENCE }}
+          REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.REACT_APP_AUTH0_CLIENT_ID }}
       - name: View Files
         run: ls
       - name: View build
