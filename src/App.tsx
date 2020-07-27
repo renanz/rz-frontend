@@ -1,28 +1,26 @@
 import React from "react";
-import { Layout } from "antd";
-import "./App.css";
-import "antd/dist/antd.css";
-import Routes from "./routes";
-import Navbar from "./components/Navbar";
-import Breadcrumb from "./components/Breadcrumb";
+import { Router } from "react-router-dom";
+import Container from "react-bootstrap/Container";
 import moment from "moment";
-const { Header, Content, Footer } = Layout;
+import "./App.css";
+import Routes from "./routes";
+import CustomNavbar from "./components/Navbar";
+import history from "./history";
 
 const App = () => {
   return (
     <>
-      <Layout className="layout">
-        <Header>
-          <Navbar />
-        </Header>
-        <Content style={{ padding: "0 50px" }}>
-          <Breadcrumb />
+      <header>
+        <CustomNavbar />
+      </header>
+      <Container>
+        <Router history={history}>
           <Routes />
-        </Content>
-        <Footer style={{ textAlign: "center" }}>
-          ©{moment().get("year")} | Created by Renan Zelaya
-        </Footer>
-      </Layout>
+        </Router>
+      </Container>
+      <footer style={{ textAlign: "center" }}>
+        ©{moment().get("year")} | Created by Renan Zelaya
+      </footer>
     </>
   );
 };
