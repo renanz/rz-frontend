@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import createAuth0Client from "@auth0/auth0-spa-js";
+import createAuth0Client, {
+  RedirectLoginResult,
+  PopupLoginOptions,
+  RedirectLoginOptions,
+  GetIdTokenClaimsOptions,
+  IdToken,
+  GetTokenSilentlyOptions,
+  GetTokenWithPopupOptions,
+  LogoutOptions,
+  Auth0ClientOptions,
+} from "@auth0/auth0-spa-js";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
@@ -17,7 +27,7 @@ interface Auth0Context {
   popupOpen: boolean;
   loginWithPopup: (options: PopupLoginOptions) => Promise<void>;
   handleRedirectCallback: () => Promise<RedirectLoginResult>;
-  getIdTokenClaims: (options?: getIdTokenClaimsOptions) => Promise<IdToken>;
+  getIdTokenClaims: (options?: GetIdTokenClaimsOptions) => Promise<IdToken>;
   loginWithRedirect: (options?: RedirectLoginOptions) => Promise<void>;
   getTokenSilently: (
     options?: GetTokenSilentlyOptions
@@ -31,6 +41,8 @@ interface Auth0Context {
 export const Auth0Context = React.createContext<Auth0Context | null>(null);
 
 export const useAuth0 = () => useContext(Auth0Context)!;
+
+export let authInstance: Auth0Client | null = null;
 
 export const Auth0Provider = ({
   children,
@@ -46,6 +58,7 @@ export const Auth0Provider = ({
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
+      authInstance = auth0FromHook;
       setAuth0(auth0FromHook);
 
       if (
