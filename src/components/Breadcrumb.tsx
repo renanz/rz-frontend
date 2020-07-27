@@ -1,11 +1,13 @@
 import React from "react";
-import { Breadcrumb as BreadCrumb } from "antd";
+import { default as BreadCrumb } from "react-bootstrap/Breadcrumb";
 
 const Breadcrumb = () => (
-  <BreadCrumb style={{ margin: "16px 0" }}>
-    {/* <BreadCrumb.Item>Home</BreadCrumb.Item>
-    <BreadCrumb.Item>List</BreadCrumb.Item>
-    <BreadCrumb.Item>App</BreadCrumb.Item> */}
+  <BreadCrumb>
+    <BreadCrumb.Item href="#">Home</BreadCrumb.Item>
+    <BreadCrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
+      Library
+    </BreadCrumb.Item>
+    <BreadCrumb.Item active>Data</BreadCrumb.Item>
   </BreadCrumb>
 );
 

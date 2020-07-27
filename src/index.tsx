@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { ConnectedRouter } from "connected-react-router";
-import { history, store } from "./store";
+import {
+  Auth0Provider,
+  Auth0Context,
+} from "./services/AuthService/react-auth0-spa";
+import store from "./store";
 import "./index.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { Auth0Provider } from "./react-auth0-spa";
+import history from "./history";
 
 const onRedirectCallback = (appState: any) => {
   history.push(
@@ -19,16 +23,17 @@ const onRedirectCallback = (appState: any) => {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Auth0Provider
-          domain={process.env.REACT_APP_AUTH0_DOMAIN!}
-          client_id={process.env.REACT_APP_AUTH0_CLIENT_ID!}
-          redirect_uri={window.location.origin}
-          onRedirectCallback={onRedirectCallback}
-        >
-          <App />
-        </Auth0Provider>
-      </ConnectedRouter>
+      <Auth0Provider
+        domain={process.env.REACT_APP_AUTH0_DOMAIN!}
+        audience={process.env.REACT_APP_AUTH0_AUDIENCE!}
+        client_id={process.env.REACT_APP_AUTH0_CLIENT_ID!}
+        redirect_uri={window.location.origin}
+        onRedirectCallback={onRedirectCallback}
+      >
+        <Auth0Context.Consumer>
+          {(props) => !props?.loading && <App />}
+        </Auth0Context.Consumer>
+      </Auth0Provider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
