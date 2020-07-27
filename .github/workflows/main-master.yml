@@ -77,12 +77,6 @@ jobs:
         id: tfout
         working-directory: ci
         run: terraform output
-      - name: Echo Terraform output
-        working-directory: ci
-        run: |
-          echo ${{ steps.tfout.outputs.stdout }}
-          echo ${{ steps.tfout.outputs.stderr }}
-          echo ${{ steps.tfout.outputs.exitcode }}
 
   upload-to-s3:
     needs: [build, terraform]
@@ -126,7 +120,7 @@ jobs:
       - name: Terraform Output
         id: tfout
         working-directory: ci
-        run: terraform output
+        run: terraform output cloudfront_id
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
