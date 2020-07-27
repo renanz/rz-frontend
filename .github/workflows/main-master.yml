@@ -122,4 +122,6 @@ jobs:
       - name: Create Cloudfront invalidation
         working-directory: ci
         run: |
+          terraform output cloudfront_id
+          echo $(terraform output cloudfront_id)
           aws cloudfront create-invalidation --distribution-id $(terraform output cloudfront_id)
