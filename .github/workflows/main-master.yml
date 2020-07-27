@@ -73,6 +73,16 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         working-directory: ci
         run: terraform apply -auto-approve
+      - name: Terraform Output
+        id: tfout
+        working-directory: ci
+        run: terraform output
+      - name: Echo Terraform output
+        working-directory: ci
+        run: |
+          echo ${{ steps.tfout.outputs.stdout }}
+          echo ${{ steps.tfout.outputs.stderr }}
+          echo ${{ steps.tfout.outputs.exitcode }}
 
   upload-to-s3:
     needs: [build, terraform]
@@ -113,10 +123,10 @@ jobs:
       - name: Terraform Init
         working-directory: ci
         run: terraform init -upgrade -input=false -backend-config="key=$KEY" -backend-config="bucket=$TERRAFORM_S3_BUCKET"
-      - name: Terraform Plan
-        id: plan
+      - name: Terraform Output
+        id: tfout
         working-directory: ci
-        run: terraform plan
+        run: terraform output
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -126,7 +136,7 @@ jobs:
       - name: Create Cloudfront invalidation
         working-directory: ci
         run: |
-          echo ${{ steps.plan.outputs.stdout }}
-          echo ${{ steps.plan.outputs.stderr }}
-          echo ${{ steps.plan.outputs.exitcode }}
-          aws cloudfront create-invalidation --distribution-id $(echo ${{ steps.plan.outputs.stdout }})
+          echo ${{ steps.tfout.outputs.stdout }}
+          echo ${{ steps.tfout.outputs.stderr }}
+          echo ${{ steps.tfout.outputs.exitcode }}
+          aws cloudfront create-invalidation --distribution-id $(echo ${{ steps.tfout.outputs.stdout }})
