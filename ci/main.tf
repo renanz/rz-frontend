@@ -42,7 +42,7 @@ locals {
 
 resource "aws_cloudfront_distribution" "cloudfront_distribution" {
   enabled          = true
-  aliases          = ["admin.renanzelaya.tech"]
+  aliases          = ["www.renanzelaya.tech"]
 
   viewer_certificate {
     acm_certificate_arn            = var.app_ssl_arn
