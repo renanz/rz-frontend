@@ -113,6 +113,10 @@ jobs:
       - name: Terraform Init
         working-directory: ci
         run: terraform init -upgrade -input=false -backend-config="key=$KEY" -backend-config="bucket=$TERRAFORM_S3_BUCKET"
+      - name: Terraform Plan
+        id: tf-plan
+        working-directory: ci
+        run: terraform plan
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -122,5 +126,7 @@ jobs:
       - name: Create Cloudfront invalidation
         working-directory: ci
         run: |
-          echo $(echo ${{ steps.terraform.outputs.cloudfront_id }})
-          aws cloudfront create-invalidation --distribution-id $(echo ${{ steps.terraform.outputs.cloudfront_id }})
+          echo ${{ steps.tf-plan.outputs.stdout }}
+          echo ${{ steps.tf-plan.outputs.stderr }}
+          echo ${{ steps.tf-plan.outputs.exitcode }}
+          aws cloudfront create-invalidation --distribution-id $(echo ${{ steps.tf-plan.outputs.stdout }})
