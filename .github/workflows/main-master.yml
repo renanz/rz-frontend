@@ -131,6 +131,4 @@ jobs:
         working-directory: ci
         run: |
           echo ${{ steps.tfout.outputs.stdout }}
-          echo ${{ steps.tfout.outputs.stderr }}
-          echo ${{ steps.tfout.outputs.exitcode }}
-          aws cloudfront create-invalidation --distribution-id $(echo ${{ steps.tfout.outputs.stdout }})
+          aws cloudfront create-invalidation --distribution-id $(${{ steps.tfout.outputs.stdout }})
